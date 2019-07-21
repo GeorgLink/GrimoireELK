@@ -63,7 +63,7 @@
             "https://jira.iotivity.org/"
         ],
         "jira": [
-            "https://jira.opnfv.org --filter-raw=data.fields.project.key:PROJECT-KEY"
+            "https://jira.opnfv.org --filter-raw=search_terms.project_key:PROJECT-KEY"
         ],
         "kitsune": [""],
         "mattermost": [

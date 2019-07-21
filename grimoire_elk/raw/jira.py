@@ -29,57 +29,16 @@ class Mapping(BaseMapping):
     def get_elastic_mappings(es_major):
         """Get Elasticsearch mapping.
 
-        Non dynamic discovery of type for:
-            * data.renderedFields.description
-
         :param es_major: major version of Elasticsearch, as string
-        :returns:        dictionary with a key, 'items', with the mapping
+        :returns: dictionary with a key, 'items', with the mapping
         """
-
         mapping = '''
          {
             "dynamic":true,
             "properties": {
                 "data": {
-                    "properties": {
-                        "renderedFields": {
-                            "dynamic":false,
-                            "properties": {}
-                        },
-                        "operations": {
-                            "dynamic":false,
-                            "properties": {}
-                        },
-                        "fields": {
-                            "dynamic":true,
-                            "properties": {
-                                "description": {
-                                    "type": "text",
-                                    "index": true
-                                },
-                                "environment": {
-                                    "type": "text",
-                                    "index": true
-                                }
-                            }
-                        },
-                        "changelog": {
-                            "properties": {
-                                "histories": {
-                                    "dynamic":false,
-                                    "properties": {}
-                                }
-                            }
-                        },
-                        "comments_data": {
-                            "properties": {
-                                "body": {
-                                    "type": "text",
-                                    "index": true
-                                }
-                            }
-                        }
-                    }
+                    "dynamic":false,
+                    "properties": {}
                 }
             }
         }
@@ -100,14 +59,3 @@ class JiraOcean(ElasticOcean):
         tokens = url.split(' ', 1)
 
         return {"url": tokens[0]}
-
-    def _fix_item(self, item):
-        # Remove all custom fields to avoid the 1000 fields limit in ES
-
-        if "fields" not in item["data"]:
-            return
-
-        fields = list(item["data"]["fields"].keys())
-        for field in fields:
-            if field.lower().startswith("customfield_"):
-                item["data"]["fields"].pop(field)

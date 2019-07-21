@@ -22,7 +22,8 @@
 import logging
 import sys
 import unittest
-from grimoire_elk.elastic_items import ElasticItems
+from grimoire_elk.elastic_items import (ElasticItems,
+                                        FILTER_DATA_ATTR)
 
 
 if '..' not in sys.path:
@@ -38,112 +39,118 @@ class TestElasticItems(unittest.TestCase):
         ei = ElasticItems(None)
 
         filter_raws = [
-            "data.product:Firefox, for Android,data.component:Logins, Passwords and Form Fill",
-            "data.product:Add-on SDK",
-            "data.product:Add-on SDK,    data.component:Documentation",
-            "data.product:Add-on SDK, data.component:General",
-            "data.product:addons.mozilla.org Graveyard,       data.component:API",
-            "data.product:addons.mozilla.org Graveyard,   data.component:Add-on Builder",
-            "data.product:Firefox for Android,data.component:Build Config & IDE Support",
-            "data.product:Firefox for Android,data.component:Logins, Passwords and Form Fill",
-            "data.product:Mozilla Localizations,data.component:nb-NO / Norwegian Bokm\u00e5l",
-            "data.product:addons.mozilla.org Graveyard,data.component:Add-on Validation"
+            "{}product:Firefox, for Android,{}component:Logins, Passwords and Form Fill".format(FILTER_DATA_ATTR,
+                                                                                                FILTER_DATA_ATTR),
+            "{}product:Add-on SDK".format(FILTER_DATA_ATTR),
+            "{}product:Add-on SDK,    {}component:Documentation".format(FILTER_DATA_ATTR, FILTER_DATA_ATTR),
+            "{}product:Add-on SDK, {}component:General".format(FILTER_DATA_ATTR, FILTER_DATA_ATTR),
+            "{}product:addons.mozilla.org Graveyard,       {}component:API".format(FILTER_DATA_ATTR, FILTER_DATA_ATTR),
+            "{}product:addons.mozilla.org Graveyard,   {}component:Add-on Builder".format(FILTER_DATA_ATTR,
+                                                                                          FILTER_DATA_ATTR),
+            "{}product:Firefox for Android,{}component:Build Config & IDE Support".format(FILTER_DATA_ATTR,
+                                                                                          FILTER_DATA_ATTR),
+            "{}product:Firefox for Android,{}component:Logins, Passwords and Form Fill".format(FILTER_DATA_ATTR,
+                                                                                               FILTER_DATA_ATTR),
+            "{}product:Mozilla Localizations,{}component:nb-NO / Norwegian Bokm\u00e5l".format(FILTER_DATA_ATTR,
+                                                                                               FILTER_DATA_ATTR),
+            "{}product:addons.mozilla.org Graveyard,{}component:Add-on Validation".format(FILTER_DATA_ATTR,
+                                                                                          FILTER_DATA_ATTR),
         ]
 
         expected = [
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Firefox, for Android"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "Logins, Passwords and Form Fill"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Add-on SDK"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Add-on SDK"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "Documentation"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Add-on SDK"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "General"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "addons.mozilla.org Graveyard"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "API"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "addons.mozilla.org Graveyard"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "Add-on Builder"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Firefox for Android"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "Build Config & IDE Support"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Firefox for Android"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "Logins, Passwords and Form Fill"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Mozilla Localizations"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "nb-NO / Norwegian Bokm\u00e5l"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "addons.mozilla.org Graveyard"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "Add-on Validation"
                 }
             ]
@@ -163,112 +170,119 @@ class TestElasticItems(unittest.TestCase):
         ei = ElasticItems(None)
 
         filter_raws = [
-            "data.product:Firefox, for Android,data.component:Logins, Passwords and Form Fill",
-            "data.product:Add-on SDK",
-            "data.product:Add-on SDK,    data.component:Documentation",
-            "data.product:Add-on SDK, data.component:General",
-            "data.product:addons.mozilla.org Graveyard,       data.component:API",
-            "data.product:addons.mozilla.org Graveyard,   data.component:Add-on Builder",
-            "data.product:Firefox for Android,data.component:Build Config & IDE Support",
-            "data.product:Firefox for Android,data.component:Logins, Passwords and Form Fill",
-            "data.product:Mozilla Localizations,data.component:nb-NO / Norwegian Bokm\u00e5l",
-            "data.product:addons.mozilla.org Graveyard,data.component:Add-on Validation"
+            "{}product:Firefox, for Android,{}component:Logins, Passwords and Form Fill".format(
+                FILTER_DATA_ATTR,
+                FILTER_DATA_ATTR),
+            "{}product:Add-on SDK".format(FILTER_DATA_ATTR),
+            "{}product:Add-on SDK,    {}component:Documentation".format(FILTER_DATA_ATTR, FILTER_DATA_ATTR),
+            "{}product:Add-on SDK, {}component:General".format(FILTER_DATA_ATTR, FILTER_DATA_ATTR),
+            "{}product:addons.mozilla.org Graveyard,       {}component:API".format(FILTER_DATA_ATTR, FILTER_DATA_ATTR),
+            "{}product:addons.mozilla.org Graveyard,   {}component:Add-on Builder".format(FILTER_DATA_ATTR,
+                                                                                          FILTER_DATA_ATTR),
+            "{}product:Firefox for Android,{}component:Build Config & IDE Support".format(FILTER_DATA_ATTR,
+                                                                                          FILTER_DATA_ATTR),
+            "{}product:Firefox for Android,{}component:Logins, Passwords and Form Fill".format(FILTER_DATA_ATTR,
+                                                                                               FILTER_DATA_ATTR),
+            "{}product:Mozilla Localizations,{}component:nb-NO / Norwegian Bokm\u00e5l".format(FILTER_DATA_ATTR,
+                                                                                               FILTER_DATA_ATTR),
+            "{}product:addons.mozilla.org Graveyard,{}component:Add-on Validation".format(FILTER_DATA_ATTR,
+                                                                                          FILTER_DATA_ATTR)
         ]
 
         expected = [
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Firefox, for Android"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "Logins, Passwords and Form Fill"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Add-on SDK"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Add-on SDK"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "Documentation"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Add-on SDK"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "General"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "addons.mozilla.org Graveyard"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "API"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "addons.mozilla.org Graveyard"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "Add-on Builder"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Firefox for Android"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "Build Config & IDE Support"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Firefox for Android"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "Logins, Passwords and Form Fill"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "Mozilla Localizations"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "nb-NO / Norwegian Bokm\u00e5l"
                 }
             ],
             [
                 {
-                    "name": "data.product",
+                    "name": FILTER_DATA_ATTR + "product",
                     "value": "addons.mozilla.org Graveyard"
                 },
                 {
-                    "name": "data.component",
+                    "name": FILTER_DATA_ATTR + "component",
                     "value": "Add-on Validation"
                 }
             ]

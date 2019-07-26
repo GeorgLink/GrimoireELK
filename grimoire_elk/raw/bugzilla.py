@@ -32,37 +32,19 @@ class Mapping(BaseMapping):
         """Get Elasticsearch mapping.
 
         :param es_major: major version of Elasticsearch, as string
-        :returns:        dictionary with a key, 'items', with the mapping
+        :returns: dictionary with a key, 'items', with the mapping
         """
-
         mapping = '''
-         {
-            "dynamic":true,
+             {
+                "dynamic":true,
                 "properties": {
                     "data": {
-                        "properties": {
-                            "long_desc": {
-                                "dynamic": false,
-                                "properties": {}
-                            },
-                            "short_desc": {
-                                "dynamic": false,
-                                "properties": {
-                                    "__text__": {
-                                        "type": "text",
-                                        "index": true
-                                    }
-                                }
-                            },
-                            "activity": {
-                                "dynamic": false,
-                                "properties": {}
-                            }
-                        }
+                        "dynamic":false,
+                        "properties": {}
                     }
                 }
-        }
-        '''
+            }
+            '''
 
         return {"items": mapping}
 
@@ -71,8 +53,3 @@ class BugzillaOcean(ElasticOcean):
     """Bugzilla Ocean feeder"""
 
     mapping = Mapping
-
-    def _fix_item(self, item):
-        # Could be used for filtering
-        product = item['data']['product'][0]['__text__']
-        item['product'] = product

@@ -29,36 +29,19 @@ class Mapping(BaseMapping):
         """Get Elasticsearch mapping.
 
         :param es_major: major version of Elasticsearch, as string
-        :returns:        dictionary with a key, 'items', with the mapping
+        :returns: dictionary with a key, 'items', with the mapping
         """
-
         mapping = '''
-         {
-            "dynamic":true,
+             {
+                "dynamic":true,
                 "properties": {
                     "data": {
-                        "properties": {
-                            "answers": {
-                                "dynamic":false,
-                                "properties": {}
-                            },
-                            "author": {
-                                "dynamic":false,
-                                "properties": {}
-                            },
-                            "comments": {
-                                "dynamic":false,
-                                "properties": {}
-                            },
-                            "summary": {
-                                "type": "text",
-                                "index": true
-                            }
-                        }
+                        "dynamic":false,
+                        "properties": {}
                     }
                 }
-        }
-        '''
+            }
+            '''
 
         return {"items": mapping}
 
@@ -67,7 +50,3 @@ class AskbotOcean(ElasticOcean):
     """Askbot Ocean feeder"""
 
     mapping = Mapping
-
-    def _fix_item(self, item):
-        # item["ocean-unique-id"] = str(item["data"]["id"])+"_"+item['origin']
-        item["ocean-unique-id"] = item["uuid"]

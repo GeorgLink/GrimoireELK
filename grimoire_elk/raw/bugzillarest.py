@@ -32,69 +32,19 @@ class Mapping(BaseMapping):
         """Get Elasticsearch mapping.
 
         :param es_major: major version of Elasticsearch, as string
-        :returns:        dictionary with a key, 'items', with the mapping
+        :returns: dictionary with a key, 'items', with the mapping
         """
-
         mapping = '''
-         {
-            "dynamic":true,
+             {
+                "dynamic":true,
                 "properties": {
                     "data": {
-                        "properties": {
-                            "comments": {
-                                "dynamic":false,
-                                "properties": {
-                                    "raw_text": {
-                                        "type": "text",
-                                        "index": true
-                                    },
-                                    "text": {
-                                        "type": "text",
-                                        "index": true
-                                    }
-                                }
-                            },
-                            "attachments": {
-                                "properties": {
-                                    "description" : {
-                                        "type": "text",
-                                        "index": true
-                                    },
-                                    "summary" : {
-                                        "type": "text",
-                                        "index": true
-                                    }
-                                }
-                            },
-                            "description": {
-                                "type": "text",
-                                "index": true
-                            },
-                            "history": {
-                                "properties": {
-                                    "changes": {
-                                        "properties": {
-                                            "removed": {
-                                                "type": "text",
-                                                "index": true
-                                            },
-                                            "added": {
-                                                "type": "text",
-                                                "index": true
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            "summary": {
-                                "type": "text",
-                                "index": true
-                            }
-                        }
+                        "dynamic":false,
+                        "properties": {}
                     }
                 }
-        }
-        '''
+            }
+            '''
 
         return {"items": mapping}
 

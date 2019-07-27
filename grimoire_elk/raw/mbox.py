@@ -34,26 +34,18 @@ class Mapping(BaseMapping):
     def get_elastic_mappings(es_major):
         """Get Elasticsearch mapping.
 
-        Non dynamic discovery of type for:
-            * data.body (inmense field)
-
         :param es_major: major version of Elasticsearch, as string
-        :returns:        dictionary with a key, 'items', with the mapping
+        :returns: dictionary with a key, 'items', with the mapping
         """
-
         mapping = '''
          {
             "dynamic":true,
-                "properties": {
-                    "data": {
-                        "properties": {
-                            "body": {
-                                "dynamic":false,
-                                "properties": {}
-                            }
-                        }
-                    }
+            "properties": {
+                "data": {
+                    "dynamic":false,
+                    "properties": {}
                 }
+            }
         }
         '''
 
@@ -81,11 +73,3 @@ class MBoxOcean(ElasticOcean):
         params = {"dirpath": params[1], "uri": params[0]}
 
         return params
-
-    def _fix_item(self, item):
-        # Remove all custom fields to avoid the 1000 fields limit in ES
-
-        fields = list(item["data"].keys())
-        for field in fields:
-            if field.lower().startswith("x-"):
-                item["data"].pop(field)

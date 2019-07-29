@@ -30,23 +30,19 @@ class Mapping(BaseMapping):
         """Get Elasticsearch mapping.
 
         :param es_major: major version of Elasticsearch, as string
-        :returns:        dictionary with a key, 'items', with the mapping
+        :returns: dictionary with a key, 'items', with the mapping
         """
-
         mapping = '''
-             {
-                "dynamic":true,
-                    "properties": {
-                        "data": {
-                            "dynamic":false,
-                            "properties": {}
-                        },
-                        "updated_on": {
-                            "type": "long"
-                        }
-                    }
+         {
+            "dynamic":true,
+            "properties": {
+                "data": {
+                    "dynamic":false,
+                    "properties": {}
+                }
             }
-            '''
+        }
+        '''
 
         return {"items": mapping}
 
@@ -72,11 +68,3 @@ class NNTPOcean(ElasticOcean):
         params = {"host": params[0], "group": params[1]}
 
         return params
-
-    def _fix_item(self, item):
-        # Remove all custom fields to avoid the 1000 fields limit in ES
-
-        fields = list(item["data"].keys())
-        for field in fields:
-            if field.lower().startswith("x-"):
-                item["data"].pop(field)

@@ -29,44 +29,20 @@ class Mapping(BaseMapping):
     def get_elastic_mappings(es_major):
         """Get Elasticsearch mapping.
 
-        Non dynamic discovery of type for:
-            * data.attachments.ts
-
         :param es_major: major version of Elasticsearch, as string
-        :returns:        dictionary with a key, 'items', with the mapping
+        :returns: dictionary with a key, 'items', with the mapping
         """
-
         mapping = '''
-             {
-                "dynamic":true,
-                    "properties": {
-                        "data": {
-                            "properties": {
-                                "attachments": {
-                                    "dynamic":false,
-                                    "properties": {}
-                                },
-                                "blocks": {
-                                    "dynamic":false,
-                                    "properties": {}
-                                },
-                                "channel_info": {
-                                    "properties": {
-                                        "latest": {
-                                            "dynamic": false,
-                                            "properties": {}
-                                        }
-                                    }
-                                },
-                                "root": {
-                                   "dynamic":false,
-                                    "properties": {}
-                                }
-                            }
-                        }
-                    }
+         {
+            "dynamic":true,
+            "properties": {
+                "data": {
+                    "dynamic":false,
+                    "properties": {}
+                }
             }
-            '''
+        }
+        '''
 
         return {"items": mapping}
 
@@ -83,7 +59,3 @@ class SlackOcean(ElasticOcean):
         params = {"channel": url}
 
         return params
-
-    def _fix_item(self, item):
-        if 'channel_info' in item['data']:
-            item['data']['channel_info'].pop('previous_names', None)

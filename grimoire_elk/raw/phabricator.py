@@ -29,41 +29,18 @@ class Mapping(BaseMapping):
     def get_elastic_mappings(es_major):
         """Get Elasticsearch mapping.
 
-        Non dynamic discovery of type for:
-            * data.transaction: has string arrays and dicts arrays
-        Specific type for:
-            * data.fields.priority.subpriority (float)
-
         :param es_major: major version of Elasticsearch, as string
-        :returns:        dictionary with a key, 'items', with the mapping
+        :returns: dictionary with a key, 'items', with the mapping
         """
-
         mapping = '''
-        {
+         {
             "dynamic":true,
             "properties": {
                 "data": {
-                    "properties": {
-                        "transactions": {
-                            "dynamic":false,
-                            "properties": {}
-                        },
-                        "fields": {
-                            "properties": {
-                                "priority" : {
-                                    "properties": {
-                                        "subpriority" : {"type": "float"}
-                                     }
-                                 },
-                                 "description": {
-                                    "dynamic":false,
-                                    "properties": {}
-                                 }
-                             }
-                         }
-                     }
-                 }
-             }
+                    "dynamic":false,
+                    "properties": {}
+                }
+            }
         }
         '''
 
@@ -74,13 +51,3 @@ class PhabricatorOcean(ElasticOcean):
     """Phabricator Ocean feeder"""
 
     mapping = Mapping
-
-    def _fix_item(self, item):
-        # fields cannot contain dots in ES 2.2. For consistency reason, this fix is applied also
-        # to more recent versions of ES
-
-        for field in item["data"]["fields"]:
-            if '.' in field:
-                undotted_field = field.replace('.', '_')
-                item["data"]["fields"][undotted_field] = item["data"]["fields"][field]
-                item["data"]['fields'].pop(field)

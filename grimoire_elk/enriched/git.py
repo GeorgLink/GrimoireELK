@@ -345,6 +345,12 @@ class GitEnrich(Enrich):
         eitem["author_date"] = author_date.replace(tzinfo=None).isoformat()
         eitem["commit_date"] = commit_date.replace(tzinfo=None).isoformat()
 
+        eitem["author_date_weekday"] = author_date.replace(tzinfo=None).isoweekday()
+        eitem["author_date_hour"] = author_date.replace(tzinfo=None).hour
+
+        eitem["commit_date_weekday"] = commit_date.replace(tzinfo=None).isoweekday()
+        eitem["commit_date_hour"] = commit_date.replace(tzinfo=None).hour
+
         eitem["utc_author"] = datetime_to_utc(author_date).replace(tzinfo=None).isoformat()
         eitem["utc_commit"] = datetime_to_utc(commit_date).replace(tzinfo=None).isoformat()
 
